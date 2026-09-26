@@ -1,0 +1,56 @@
+name: Testes de API
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  testes-api:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Instalar dependências
+        run: npm ci
+
+      - name: Criar arquivo .env para os testes
+        run: |
+          cat <<EOF > .env
+          BASE_URL=http://localhost:3000
+          ADMIN_EMAIL=admin@escola.com
+          ADMIN_SENHA=admin123
+          EOF
+
+      - name: Subir a API em segundo plano
+        run: |
+          nohup npm start > server.log 2>&1 &
+          disown
+
+      - name: Aguardar a API ficar disponível
+        run: |
+          for i in $(seq 1 30); do
+            if curl -sf http://localhost:3000/ > /dev/null; then
+              echo "API disponível."
+              exit 0
+            fi
+            echo "Aguardando a API subir... (tentativa $i)"
+            sleep 1
+          done
+          echo "A API não respondeu a tempo."
+          cat server.log
+          exit 1
+
+      - name: Rodar os testes (Mocha + Supertest + Chai)
+        run: npm test
+
+      - name: Exibir logs da API em caso de falha
+        if: failure()
+        run: cat server.log

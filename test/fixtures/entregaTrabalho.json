@@ -1,0 +1,93 @@
+{
+  "cenariosFluxoCompleto": [
+    {
+      "testTitle": "deve permitir que Larissa Nogueira, recém-cadastrada pelo admin, faça login e registre a entrega de um trabalho na disciplina em que foi matriculada",
+      "dadosAluno": {
+        "nome": "Larissa Nogueira",
+        "emailBase": "larissa.nogueira",
+        "senha": "123456"
+      },
+      "dadosDisciplina": {
+        "nome": "Engenharia de Software",
+        "codigoBase": "ES",
+        "cargaHoraria": 80
+      },
+      "dadosTrabalho": {
+        "titulo": "Projeto Final - API REST",
+        "descricao": "Implementação da API de gestão de alunos com testes automatizados."
+      }
+    },
+    {
+      "testTitle": "deve permitir que Thiago Batista, recém-cadastrado pelo admin, faça login e registre a entrega de um trabalho na disciplina em que foi matriculado",
+      "dadosAluno": {
+        "nome": "Thiago Batista",
+        "emailBase": "thiago.batista",
+        "senha": "654321"
+      },
+      "dadosDisciplina": {
+        "nome": "Banco de Dados",
+        "codigoBase": "BD",
+        "cargaHoraria": 60
+      },
+      "dadosTrabalho": {
+        "titulo": "Modelagem ER - Sistema de Biblioteca",
+        "descricao": "Entrega do diagrama entidade-relacionamento e do script de criação das tabelas."
+      }
+    },
+    {
+      "testTitle": "deve permitir que Camila Duarte, recém-cadastrada pelo admin, faça login e registre a entrega de um trabalho na disciplina em que foi matriculada",
+      "dadosAluno": {
+        "nome": "Camila Duarte",
+        "emailBase": "camila.duarte",
+        "senha": "abc12345"
+      },
+      "dadosDisciplina": {
+        "nome": "Testes de Software",
+        "codigoBase": "TS",
+        "cargaHoraria": 40
+      },
+      "dadosTrabalho": {
+        "titulo": "Plano de Testes - Módulo de Login",
+        "descricao": "Documento com casos de teste funcionais e de segurança do módulo de login."
+      }
+    }
+  ],
+  "cenarioAlunoNaoMatriculado": {
+    "testTitle": "deve retornar 409 quando o aluno tenta registrar a entrega de um trabalho em uma disciplina na qual não está matriculado",
+    "dadosAluno": {
+      "nome": "Rafael Cordeiro",
+      "emailBase": "rafael.cordeiro",
+      "senha": "123456"
+    },
+    "dadosDisciplina": {
+      "nome": "Redes de Computadores",
+      "codigoBase": "RC",
+      "cargaHoraria": 60
+    },
+    "dadosTrabalho": {
+      "titulo": "Relatório de Configuração de Rede",
+      "descricao": "Trabalho que não deveria poder ser entregue sem matrícula na disciplina."
+    },
+    "statusCodeEsperado": 409,
+    "mensagemErroEsperada": "O aluno não está matriculado nesta disciplina."
+  },
+  "cenarioAcessoNegado": {
+    "testTitle": "deve retornar 403 quando um aluno autenticado tenta registrar a entrega de um trabalho na conta de outro aluno",
+    "dadosAlunoAutenticado": {
+      "nome": "Patricia Vieira",
+      "emailBase": "patricia.vieira",
+      "senha": "123456"
+    },
+    "dadosAlunoAlvo": {
+      "nome": "Eduardo Farias",
+      "emailBase": "eduardo.farias",
+      "senha": "123456"
+    },
+    "dadosTrabalho": {
+      "titulo": "Estudo de Caso - Consistência Eventual",
+      "descricao": "Trabalho usado apenas para validar a regra de autorização entre alunos."
+    },
+    "statusCodeEsperado": 403,
+    "mensagemErroEsperada": "Você só pode acessar os seus próprios dados."
+  }
+}
