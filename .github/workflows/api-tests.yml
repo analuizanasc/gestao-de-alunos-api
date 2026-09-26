@@ -7,6 +7,10 @@ on:
 jobs:
   testes-api:
     runs-on: ubuntu-latest
+    env:
+      BASE_URL: http://localhost:3000
+      ADMIN_EMAIL: ${{ secrets.ADMIN_EMAIL }}
+      ADMIN_SENHA: ${{ secrets.ADMIN_SENHA }}
 
     steps:
       - name: Checkout do código
@@ -20,14 +24,6 @@ jobs:
 
       - name: Instalar dependências
         run: npm ci
-
-      - name: Criar arquivo .env para os testes
-        run: |
-          cat <<EOF > .env
-          BASE_URL=http://localhost:3000
-          ADMIN_EMAIL=admin@escola.com
-          ADMIN_SENHA=admin123
-          EOF
 
       - name: Subir a API em segundo plano
         run: |
